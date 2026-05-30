@@ -1,5 +1,5 @@
 from langchain_openai import ChatOpenAI
-from src.Prompts.Prompts import proposal_prompt
+from Prompts.Prompts import proposal_prompt
 #from prompts.prompts import proposal_prompt
 
 def generate_proposal(context):

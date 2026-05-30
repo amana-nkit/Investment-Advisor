@@ -5,7 +5,7 @@ from langchain.docstore.document import Document
 import time
 
 # ✅ Logger import (IMPORTANT)
-from src.utilities.logger import logger
+from utilities.logger import logger
 
 
 # ==========================================================

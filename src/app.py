@@ -6,16 +6,19 @@ import os
 # ✅ Load environment variables
 load_dotenv()
 
-# ✅ Imports (clean, using src package)
-from src.loader.loaders import load_pdf, load_web
-from src.vector.vector_store import create_vector_store
-# from vector.vector_store import create_vector_store
-from src.rag.rag_pipeline import generate_proposal
-from src.utilities.utils import create_pdf, send_email
-from src.workflow.graph import create_graph
+# ✅ Logger
+from utilities.logger import logger
 
+# ✅ Imports
+from loader.loaders import load_pdf, load_web
+from vector.vector_store import create_vector_store
+from rag.rag_pipeline import generate_proposal
+from utilities.utils import create_pdf, send_email
+from archive.graph_v2 import create_graph
 
-# ✅ Streamlit Page Config
+# ==========================================================
+# ✅ Streamlit Config
+# ==========================================================
 st.set_page_config(page_title="AI Investment Proposal", layout="wide")
 
 st.title("💰 AI Investment Proposal (LangGraph + RAG)")
@@ -24,10 +27,14 @@ st.markdown("""
 Upload client financial data → Generate proposal → Download PDF → Email client  
 """)
 
+# ==========================================================
 # ✅ File Upload
+# ==========================================================
 uploaded_file = st.file_uploader("📄 Upload Customer Financial PDF", type=["pdf"])
 
-# ✅ Session Persistence
+# ==========================================================
+# ✅ Session State
+# ==========================================================
 if "proposal" not in st.session_state:
     st.session_state["proposal"] = None
 
@@ -35,61 +42,68 @@ if "pdf_path" not in st.session_state:
     st.session_state["pdf_path"] = None
 
 # ==========================================================
-# MAIN FLOW
+# ✅ MAIN FLOW
 # ==========================================================
 if uploaded_file:
 
-    # Save uploaded file temporarily
     with tempfile.NamedTemporaryFile(delete=False) as tmp:
         tmp.write(uploaded_file.read())
         file_path = tmp.name
 
     st.success("✅ File uploaded successfully")
+    logger.info("PDF uploaded successfully")
 
     if st.button("🚀 Generate Investment Proposal"):
 
         with st.spinner("🔄 Processing..."):
 
             try:
-                # ✅ Step 1: Load data
+                # ✅ Load data
                 pdf_docs = load_pdf(file_path)
                 web_docs = load_web()
 
                 all_docs = pdf_docs + web_docs
+                logger.info(f"Total documents loaded: {len(all_docs)}")
 
-                st.write("📊 Total Docs:", len(all_docs))  # ✅ DEBUG
-
-                # ✅ Step 2: Create vector DB
+                # ✅ Create vector DB
                 vector_db = create_vector_store(all_docs)
 
-                st.write("✅ Vector DB:", type(vector_db))  # ✅ DEBUG
+                if vector_db is None:
+                    raise ValueError("Vector store creation failed")
 
-                # ✅ Step 3: LangGraph execution
+                logger.info("Vector DB created successfully")
+
+                # ✅ LangGraph execution
                 graph = create_graph()
 
                 result = graph.invoke({
-                    "query": "investment strategy, risk profile, mutual fund allocation",
+                    "query": "customer financial profile investment strategy risk appetite asset allocation",
                     "vector_db": vector_db,
                     "generate_fn": generate_proposal
-                    # "generate_fn": lambda ctx: generate_proposal(vector_db)
                 })
 
-                st.write("✅ Graph Output:", result)  # ✅ DEBUG
+                logger.info("LangGraph execution successful")
 
-                proposal = result.get("answer", "No output generated.")
+                proposal = result.get("answer", "")
 
-                # ✅ Save results
+                if not proposal:
+                    raise ValueError("Empty proposal generated")
+
+                # ✅ Save proposal
                 st.session_state["proposal"] = proposal
 
-                # ✅ Step 4: Generate PDF
+                # ✅ Create PDF
                 pdf_path = create_pdf(proposal)
                 st.session_state["pdf_path"] = pdf_path
 
+                logger.info("PDF generated successfully")
+
             except Exception as e:
-                st.error(f"❌ Error occurred: {e}")
+                logger.error(f"Error in proposal generation: {str(e)}", exc_info=True)
+                st.error("❌ Something went wrong. Please check logs.")
 
 # ==========================================================
-# DISPLAY OUTPUT
+# ✅ DISPLAY RESULT
 # ==========================================================
 if st.session_state["proposal"]:
 
@@ -116,12 +130,14 @@ if st.session_state["proposal"]:
         else:
             try:
                 send_email(email, st.session_state["pdf_path"])
+                logger.info(f"Proposal emailed to {email}")
                 st.success("✅ Email sent successfully")
             except Exception as e:
-                st.error(f"❌ Email failed: {e}")
+                logger.error(f"Email sending failed: {str(e)}", exc_info=True)
+                st.error("❌ Failed to send email. Check logs.")
 
 # ==========================================================
-# FOOTER
+# ✅ FOOTER
 # ==========================================================
 st.divider()
 

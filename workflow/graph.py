@@ -2,9 +2,9 @@ from langgraph.graph import StateGraph
 from typing import TypedDict, List, Any
 from langchain_core.documents import Document
 
-from src.rag.rag_pipeline import generate_proposal
-from src.models.document_schema import InvestmentDocument
-from src.utilities.logger import logger
+from rag.rag_pipeline import generate_proposal
+from models.document_schema import InvestmentDocument
+from utilities.logger import logger
 
 
 # ==========================================================
