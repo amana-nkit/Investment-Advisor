@@ -1,107 +1,59 @@
-streamlit
-langchain
-langchain-openai
-langchain-community
-langgraph
+# ---------------------------
+# ✅ UI
+# ---------------------------
+streamlit==1.35.0
 
-pydantic
-torchvision
-workflow
+# ---------------------------
+# ✅ LangChain Ecosystem
+# ---------------------------
+langchain==0.2.5
+langchain-core==0.2.10
+langchain-community==0.2.5
+langchain-openai==0.1.8
+langchain-text-splitters==0.2.2
 
+# ---------------------------
+# ✅ LangGraph
+# ---------------------------
+langgraph==0.0.45
 
-# Replace FAISS
-chromadb
+# ---------------------------
+# ✅ Vector Store (ChromaDB)
+# ---------------------------
+chromadb==0.4.24
 
-sentence-transformers
-openai
+# ---------------------------
+# ✅ LLM + Embeddings
+# ---------------------------
+openai==1.30.5
+tiktoken==0.7.0
+sentence-transformers==2.7.0
 
-requests
-beautifulsoup4
-pypdf
+# ---------------------------
+# ✅ Data Loading
+# ---------------------------
+requests==2.32.3
+beautifulsoup4==4.12.3
+pypdf==4.2.0
 
-tiktoken
-reportlab
-python-dotenv
+# ---------------------------
+# ✅ Validation & Utilities
+# ---------------------------
+pydantic==2.7.1
+python-dotenv==1.0.1
 
+# ---------------------------
+# ✅ PDF Generation
+# ---------------------------
+reportlab==4.1.0
+
+# ---------------------------
+# ✅ Performance / Compatibility
+# ---------------------------
 numpy==1.26.4
 
- -e .
-
-
-
-# # UI
-# streamlit==1.35.0
-
-# # Core LLM / LangChain
-# langchain==0.2.5
-# langchain-openai==0.1.8
-# langchain-community==0.2.5
-# langchain-core==0.2.10
-
-# chromadb
-
-# # LangGraph
-# langgraph==0.0.45
-
-# # Embeddings & Vector DB
-# faiss-cpu==1.13.2
-# sentence-transformers==2.7.0
-
-# # OpenAI SDK
-# openai==1.30.5
-
-# # Data Loading / Parsing
-# requests==2.32.3
-# beautifulsoup4==4.12.3
-# pypdf==4.2.0
-
-# # Text Processing
-# tiktoken==0.7.0
-
-# # PDF Generation
-# reportlab==4.1.0
-
-# # Email / Env
-# python-dotenv==1.0.1
-
-# # Optional (better performance)
-# numpy==1.26.4
+# ---------------------------
+# ✅ Optional (if used)
+# ---------------------------
+# torch==2.3.0
 # scikit-learn==1.5.0
-
-# chromadb
-
-# crewai
-# langchain
-# langchain-openai
-# chromadb
-# sentence-transformers
-# pandas
-# numpy
-# sqlalchemy
-# openai
-# tiktoken
-# python-dotenv
-# fpdf2
-# streamlit 
-# faiss-cpu 
-# pypdf
-# tiktoken
-# torchvision
-# streamlit \
-# langchain \
-# langchain-core \
-# langchain-community \
-# langchain-openai \
-# langchain-text-splitters \
-# faiss-cpu \
-# pypdf \
-# python-dotenv \
-# tiktoken
-
-
-# # Explicit telemetry compatibility
-# opentelemetry-api==1.33.1
-# opentelemetry-sdk==1.33.1
-# opentelemetry-exporter-otlp==1.33.1
-# opentelemetry-exporter-otlp-proto-common==1.33.1
-# opentelemetry-semantic-conventions==0.54b1
