@@ -94,6 +94,8 @@ class InvestmentDocument(BaseModel):
     source: str
     doc_type: str
 
+---
+
 ## Logging
 
 Logs are stored in: /logs/app.log   
