@@ -108,7 +108,9 @@ Errors
 Retrieval logs
 Proposal generation status
 
-## Example cURL
+### Example cURL
+
+```bash
 
 # Create and Activate Virtual environment
 
@@ -143,3 +145,5 @@ https://aka.ms/installazurecliwindows
 
 Run the .msi file
 Follow default steps (Next → Finish)
+
+```
