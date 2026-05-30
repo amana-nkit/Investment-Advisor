@@ -14,7 +14,8 @@ from loader.loaders import load_pdf, load_web
 from vector.vector_store import create_vector_store
 from rag.rag_pipeline import generate_proposal
 from utilities.utils import create_pdf, send_email
-from archive.graph_v2 import create_graph
+from workflow.graph import create_graph
+#from archive.graph_v2 import create_graph
 
 # ==========================================================
 # ✅ Streamlit Config
