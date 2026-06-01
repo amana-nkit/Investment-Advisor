@@ -1,31 +1,78 @@
 # UI
-streamlit
+streamlit>=1.35.0
 
 # LangChain + LangGraph
-langchain
-langchain-core
-langchain-community
-langchain-openai
-langchain-text-splitters
-langgraph
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-community>=0.2.0
+langchain-openai>=0.1.0
+langchain-chroma>=0.1.0
+langchain-text-splitters>=0.2.0
+langgraph>=0.1.0
 
 # Vector DB
-chromadb
+chromadb>=0.5.0
 
 # LLM
-openai
-tiktoken
-sentence-transformers
+openai>=1.30.0
+tiktoken>=0.7.0
 
-# Data
-requests
-beautifulsoup4
-pypdf
+# Data ingestion
+requests>=2.32.0
+beautifulsoup4>=4.12.0
+pypdf>=4.2.0
+
+# Database (L3 long-term memory)
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+
+# Validation & schemas
+pydantic>=2.7.0
+pydantic-settings>=2.2.0
+email-validator>=2.1.0
+
+# Security
+python-magic>=0.4.27
+
+# PDF generation (proper Paragraph API)
+reportlab>=4.2.0
+
+# Email (transactional — replaces raw SMTP)
+sendgrid>=6.11.0
 
 # Utils
-python-dotenv
-pydantic
-reportlab
-
-# Compatibility
+python-dotenv>=1.0.0
 numpy==1.26.4
+
+
+# # UI
+# streamlit
+
+# # LangChain + LangGraph
+# langchain
+# langchain-core
+# langchain-community
+# langchain-openai
+# langchain-text-splitters
+# langgraph
+
+# # Vector DB
+# chromadb
+
+# # LLM
+# openai
+# tiktoken
+# sentence-transformers
+
+# # Data
+# requests
+# beautifulsoup4
+# pypdf
+
+# # Utils
+# python-dotenv
+# pydantic
+# reportlab
+
+# # Compatibility
+# numpy==1.26.4

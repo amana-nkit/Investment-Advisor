@@ -1,44 +1,13 @@
-# Python cache & virtualenv
-__pycache__/
-*.py[cod]
-*.so
-*.pyd
-*.pyo
-env/
-venv/
-*.egg-info/
-*.egg
-*.log
-
-# OS & editor files
-.DS_Store
-.vscode/
-.idea/
-
-# LangChain-related
-faiss_index/
-*.faiss
-*.pkl
-
-# Data & archive
-data/
-archive/
-main_archive/
-*.pdf
-notebook/
-
-# Secrets & configs
 .env
-.env.*
-
-# Logs
+*.pyc
+__pycache__/
+chroma_db/
 logs/
-*.log
-
-# Build/Dist
+*.db
+*.sqlite3
+.venv/
 dist/
 build/
-document_portal.egg-info/
-
-# Terraform
- Terraform/
+*.egg-info/
+.DS_Store
+proposal_*.pdf

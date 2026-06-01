@@ -1,49 +1,37 @@
-# --------------------------------------------------
-# ✅ Base Image
-# --------------------------------------------------
-FROM python:3.11-slim
+# ── Stage 1: build ──────────────────────────────────────────────────────
+FROM python:3.12-slim AS builder
 
-# --------------------------------------------------
-# ✅ Set working directory
-# --------------------------------------------------
+WORKDIR /build
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir -r requirements.txt --target /build/packages
+
+# ── Stage 2: runtime ─────────────────────────────────────────────────────
+FROM python:3.12-slim AS runtime
+
+# Non-root user
+RUN addgroup --system app && adduser --system --ingroup app app
+
 WORKDIR /app
 
-# --------------------------------------------------
-# ✅ Copy only requirements first (for caching)
-# --------------------------------------------------
-COPY requirements.txt .
+# Copy installed packages from builder
+COPY --from=builder /build/packages /usr/local/lib/python3.12/site-packages
 
-# --------------------------------------------------
-# ✅ Install dependencies
-# --------------------------------------------------
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy application code
+COPY --chown=app:app . .
 
-# ✅ Install additional runtime deps explicitly
-RUN pip install --no-cache-dir chromadb
+# Runtime directories
+RUN mkdir -p logs chroma_db \
+ && chown -R app:app logs chroma_db
 
-# --------------------------------------------------
-# ✅ Copy full project
-# --------------------------------------------------
-COPY . .
+USER app
 
-# --------------------------------------------------
-# ✅ Create logs directory
-# --------------------------------------------------
-RUN mkdir -p logs data/vector_db
-
-# --------------------------------------------------
-# ✅ Environment variables
-# --------------------------------------------------
-ENV PYTHONUNBUFFERED=1
-ENV STREAMLIT_SERVER_PORT=8501
-ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
-
-# --------------------------------------------------
-# ✅ Expose port
-# --------------------------------------------------
 EXPOSE 8501
 
-# --------------------------------------------------
-# ✅ Run app
-# --------------------------------------------------
-CMD ["streamlit", "run", "src/ui/app.py"]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+    CMD curl -f http://localhost:8501/_stcore/health || exit 1
+
+ENTRYPOINT ["streamlit", "run", "ui/app.py", \
+            "--server.port=8501", \
+            "--server.address=0.0.0.0", \
+            "--server.headless=true"]
